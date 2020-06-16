@@ -1,9 +1,9 @@
 BootStrap: docker
-From: ubuntu:16.04
+From: ubuntu:focal
 
 %labels
-  Maintainer Jeremy Nicklas
-  R_Version 3.6.2
+  Maintainer mattocci
+  R_Version 4.0.0
 
 %apprun R
   exec R "${@}"
@@ -14,14 +14,20 @@ From: ubuntu:16.04
 %runscript
   exec R "${@}"
 
+%environment 
+  DEBIAN_FRONTEND=noninteractive
+
 %post
   # Software versions
-  export R_VERSION=3.6.2
+  export R_VERSION=4.0.0
 
   # Get dependencies
+  sed -i.bak -e "s%http://archive.ubuntu.com/%http://mirrors.tuna.tsinghua.edu.cn/%g" /etc/apt/sources.list
+  sed -i.bak -e "s%http://security.ubuntu.com/%http://mirrors.tuna.tsinghua.edu.cn/%g" /etc/apt/sources.list
   apt-get update
   apt-get install -y --no-install-recommends \
-    locales
+    locales \
+    gnupg
 
   # Configure default locale
   echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen
@@ -31,10 +37,10 @@ From: ubuntu:16.04
   export LANG=en_US.UTF-8
 
   # Install R
-  echo "deb http://cran.r-project.org/bin/linux/ubuntu xenial-cran35/" > /etc/apt/sources.list.d/r.list
+  echo "deb http://cran.r-project.org/bin/linux/ubuntu focal-cran40/" > /etc/apt/sources.list.d/r.list
   apt-key adv --keyserver keyserver.ubuntu.com --recv-keys E298A3A825C0D65DFD57CBB651716619E084DAB9
   apt-get update
-  apt-get install -y --no-install-recommends \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
     r-base=${R_VERSION}* \
     r-base-core=${R_VERSION}* \
     r-base-dev=${R_VERSION}* \
@@ -45,7 +51,8 @@ From: ubuntu:16.04
     libssl-dev \
     libxml2-dev \
     libcairo2-dev \
-    libxt-dev
+    libxt-dev \
+    libopenblas-openmp-dev
 
   # Add a default CRAN mirror
   echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/lib/R/etc/Rprofile.site
