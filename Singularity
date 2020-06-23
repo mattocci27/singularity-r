@@ -3,7 +3,7 @@ From: ubuntu:focal
 
 %labels
   Maintainer mattocci
-  R_Version 4.0.0
+  R_Version 4.0.2
 
 %apprun R
   exec R "${@}"
@@ -14,16 +14,14 @@ From: ubuntu:focal
 %runscript
   exec R "${@}"
 
-%environment 
+%environment
   DEBIAN_FRONTEND=noninteractive
 
 %post
   # Software versions
-  export R_VERSION=4.0.0
+  export R_VERSION=4.0.2
 
   # Get dependencies
-  sed -i.bak -e "s%http://archive.ubuntu.com/%http://mirrors.tuna.tsinghua.edu.cn/%g" /etc/apt/sources.list
-  sed -i.bak -e "s%http://security.ubuntu.com/%http://mirrors.tuna.tsinghua.edu.cn/%g" /etc/apt/sources.list
   apt-get update
   apt-get install -y --no-install-recommends \
     locales \
