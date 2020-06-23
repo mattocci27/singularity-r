@@ -5,8 +5,11 @@ From: ubuntu:focal
   Maintainer mattocci
   R_Version 4.0.0
 
-%apprun j
+%apprun R
   exec R "${@}"
+
+%apprun radian
+  exec radian "${@}"
 
 %apprun Rscript
   exec Rscript "${@}"
@@ -50,7 +53,10 @@ From: ubuntu:focal
     libxml2-dev \
     libcairo2-dev \
     libxt-dev \
-    libopenblas-openmp-dev
+    libopenblas-openmp-dev \
+    libpython3-dev \
+    python3-dev \
+    python3-pip
 
   # Add a default CRAN mirror
   echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/lib/R/etc/Rprofile.site
@@ -58,6 +64,9 @@ From: ubuntu:focal
   # Add a directory for host R libraries
   mkdir -p /library
   echo "R_LIBS_SITE=/library:\${R_LIBS_SITE}" >> /usr/lib/R/etc/Renviron.site
+
+  # install radian
+  pip3 install -U radian
 
   # Clean up
   rm -rf /var/lib/apt/lists/*
