@@ -3,13 +3,13 @@ From: ubuntu:focal
 
 %labels
   Maintainer mattocci
-  R_Version 4.0.0
-
-%apprun R
-  exec R "${@}"
+  R_Version 4.0.2
 
 %apprun radian
   exec radian "${@}"
+
+%apprun R
+  exec R "${@}"
 
 %apprun Rscript
   exec Rscript "${@}"
@@ -22,7 +22,7 @@ From: ubuntu:focal
 
 %post
   # Software versions
-  export R_VERSION=4.0.0
+  export R_VERSION=4.0.2
 
   # Get dependencies
   apt-get update
