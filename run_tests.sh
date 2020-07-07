@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export SINGULARITY_IMAGE="${SINGULARITY_IMAGE:-singularity-r.simg}"
+export SINGULARITY_IMAGE="${SINGULARITY_IMAGE:-singularity-radian.sif}"
 echo "Using Singularity image: ${SINGULARITY_IMAGE}"
 
 version () {

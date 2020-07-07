@@ -17,9 +17,6 @@ From: ubuntu:focal
 %runscript
   exec R "${@}"
 
-%environment
-  DEBIAN_FRONTEND=noninteractive
-
 %post
   # Software versions
   export R_VERSION=4.0.2
@@ -59,7 +56,7 @@ From: ubuntu:focal
     python3-pip
 
   # Add a default CRAN mirror
-  echo "options(repos = c(CRAN = 'https://cran.rstudio.com/'), download.file.method = 'libcurl')" >> /usr/lib/R/etc/Rprofile.site
+  echo "options(repos = c(CRAN = 'https://cloud.r-project.org/'), download.file.method = 'libcurl')" >> /usr/lib/R/etc/Rprofile.site
 
   # Add a directory for host R libraries
   mkdir -p /library
